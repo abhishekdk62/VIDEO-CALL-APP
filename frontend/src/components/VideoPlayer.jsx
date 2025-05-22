@@ -52,7 +52,7 @@ const VideoPlayer = () => {
               <div className="p-4 bg-white/5 backdrop-blur-sm">
                 <div className="flex justify-between items-center">
                   <span className="text-white font-medium">Your Camera</span>
-                  <span className="bg-red-500 text-emerald-100 text-xs px-1 py-0.5 rounded-sm border border-emerald-400/30">
+                  <span className="bg-red-500 text-emerald-100 text-xs px-2 py-1 rounded-full border border-emerald-400/30">
                     Live
                   </span>
                 </div>
@@ -95,7 +95,7 @@ const VideoPlayer = () => {
               <div className="p-4 bg-white/5 backdrop-blur-sm">
                 <div className="flex justify-between items-center">
                   <span className="text-white font-medium">Your Camera</span>
-                  <span className="bg-emerald-400/20 text-emerald-100 text-xs px-2 py-1 rounded-full border border-emerald-400/30">
+                  <span className="bg-red-500 text-emerald-100 text-xs px-2 py-1 rounded-full border border-emerald-400/30">
                     Live
                   </span>
                 </div>
@@ -124,7 +124,7 @@ const VideoPlayer = () => {
               <div className="p-4 bg-white/5 backdrop-blur-sm">
                 <div className="flex justify-between items-center">
                   <span className="text-white font-medium">Remote Camera</span>
-                  <span className="bg-emerald-400/20 text-emerald-100 text-xs px-2 py-1 rounded-full border border-emerald-400/30">
+                  <span className="bg-blue-700 text-emerald-100 text-xs px-2 py-1 rounded-full border border-emerald-400/30">
                     Connected
                   </span>
                 </div>

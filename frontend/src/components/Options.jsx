@@ -29,15 +29,16 @@ const Options = ({ children }) => {
               className="w-full bg-white/10 text-white placeholder-white/50 border border-white/20 rounded-xl py-2 px-4 focus:outline-none focus:ring-2 focus:ring-white/30 transition"
             />
             <button
+            disabled={!me}
               onClick={handleCopy}
               className={`flex items-center justify-center gap-2 py-2 px-4 rounded-xl font-medium transition transform hover:scale-105 ${
                 copied
-                  ? "bg-emerald-400/20 text-emerald-100 border border-emerald-400/30"
-                  : "bg-white/10 text-white border border-white/20 hover:bg-white/20"
+                  ? "bg-emerald-400/20 text-emerald-100 border border-emerald-400/30":!me?"bg-red-500 text-emerald-100":
+                   "bg-white/10 text-white border border-white/20 hover:bg-white/20"
               }`}
             >
               <Copy className="h-5 w-5" />
-              <span>{copied ? "Copied!" : "Copy Your ID"}</span>
+              <span>{copied ? "Copied!" :!me?"Please Refresh to get your ID": "Copy Your ID"}</span>
             </button>
           </div>
         </div>

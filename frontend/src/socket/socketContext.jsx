@@ -31,9 +31,12 @@ const socket = io("http://localhost:8080");
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
 
-    socket.on("callaccepted", (signal) => {
+    socket.on("callaccepted", ({ signal, name }) => {
+      setCall(prevCall => ({
+        ...prevCall,
+        name: name // Update the call object with the receiver's name
+      }));
       setCallAccepted(true);
-      // feed the answer to the existing peer
       if (connectionRef.current) {
         connectionRef.current.signal(signal);
       }
@@ -61,8 +64,13 @@ useEffect(() => {
     const peer = new Peer({ initiator: false, trickle: false, stream });
 
     peer.on("signal", (data) => {
-      socket.emit("answercall", { signal: data, to: call.from });
+      socket.emit("answercall", { 
+        signal: data, 
+        to: call.from,
+        name: name // Make sure to send the local user's name
+      });
     });
+
     peer.on("stream", (currentStream) => {
       if (userVideo.current) {
         userVideo.current.srcObject = currentStream;
@@ -70,7 +78,6 @@ useEffect(() => {
     });
 
     peer.signal(call.signal);
-
     connectionRef.current = peer;
   };
 

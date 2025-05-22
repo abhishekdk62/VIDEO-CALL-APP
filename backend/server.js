@@ -19,19 +19,23 @@ const io = new Server(server, {
 });
 //?
 
-
-
 io.on("connection", (socket) => {
   socket.emit("me", socket.id);
+  
   socket.on("disconnect", () => {
     socket.broadcast.emit("callended");
   });
+
   socket.on("calluser", ({ userToCall, signalData, from, name }) => {
     io.to(userToCall).emit("calluser", { signal: signalData, from, name });
   });
 
   socket.on("answercall", (data) => {
-    io.to(data.to).emit("callaccepted", data.signal);
+    // Add name to the callaccepted event
+    io.to(data.to).emit("callaccepted", {
+      signal: data.signal,
+      name: data.name // Make sure name is included
+    });
   });
 });
 
