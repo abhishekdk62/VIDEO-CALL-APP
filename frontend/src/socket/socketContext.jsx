@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
-import Peer from "simple-peer";
+import Peer from "simple-peer/simplepeer.min.js";
 
 export const SocketContext = createContext();
 const socket = io("http://localhost:8080");
@@ -19,14 +19,10 @@ const socket = io("http://localhost:8080");
 
   useEffect(() => {
     // 1. Get local media
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        setStream(currentStream);
-        if (myVideo.current) {
-          myVideo.current.srcObject = currentStream;
-        }
-      });
+  navigator.mediaDevices
+    .getUserMedia({ video: true, audio: true })
+    .then((mediaStream) => setStream(mediaStream))
+    .catch((err) => console.error("getUserMedia failed:", err));
 
     // 2. Register socket listeners once
     socket.on("me", (id) => setMe(id));
@@ -53,12 +49,12 @@ const socket = io("http://localhost:8080");
 
 
 
-  
-  useEffect(() => {
-    if (stream && myVideo.current) {
-      myVideo.current.srcObject = stream;
-    }
-  }, [stream]);
+useEffect(() => {
+  if (stream && myVideo.current) {
+    myVideo.current.srcObject = stream;
+  }
+}, [callAccepted,stream]);
+
   const answerCall = () => {
     setCallAccepted(true);
 
@@ -79,6 +75,8 @@ const socket = io("http://localhost:8080");
   };
 
   const callUser = (id) => {
+    console.log("Person to call is",id);
+    
       if (!stream) {
     console.warn("⚠️ callUser() called but no local stream ready yet");
     return;

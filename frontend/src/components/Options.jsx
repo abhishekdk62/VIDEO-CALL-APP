@@ -1,17 +1,17 @@
 import React, { useState, useContext } from "react";
 import { Copy, Phone, PhoneOff, User } from "lucide-react";
 import { SocketContext } from "../socket/socketContext";
-import {CopyToClipBoard} from 'react-copy-to-clipboard'
+import { CopyToClipBoard } from "react-copy-to-clipboard";
 
 const Options = ({ children }) => {
-  const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } =
-    useContext(SocketContext)
+  const { me, callAccepted, name, setName,stream, callEnded, leaveCall, callUser } =
+    useContext(SocketContext);
 
   const [idToCall, setIdToCall] = useState("");
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    console.log("my socket id is",me)
+    console.log("my socket id is", me);
     navigator.clipboard.writeText(me);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -21,7 +21,6 @@ const Options = ({ children }) => {
       <div className="flex flex-col md:flex-row gap-6">
         <div className="md:w-1/2 backdrop-blur-md bg-white/10 rounded-2xl border border-white/20 shadow-2xl overflow-hidden">
           <div className="p-6 flex flex-col gap-4">
-         
             <input
               type="text"
               value={name}
@@ -54,7 +53,7 @@ const Options = ({ children }) => {
             {callAccepted && !callEnded ? (
               <button
                 onClick={leaveCall}
-                className="flex items-center justify-center gap-2 py-3 px-6 bg-red-500/20 hover:bg-red-500/30 text-red-100 border border-red-400/30 rounded-xl font-medium transition transform hover:scale-105"
+                className="flex items-center justify-center gap-2 py-3 px-6 bg-red-600 hover:bg-red-500 text-red-100 border border-white rounded-xl font-medium transition transform hover:scale-105"
               >
                 <PhoneOff className="h-5 w-5" />
                 <span>Hang Up</span>
@@ -62,7 +61,7 @@ const Options = ({ children }) => {
             ) : (
               <button
                 onClick={() => callUser(idToCall)}
-                disabled={!idToCall}
+                disabled={!idToCall || !stream}
                 className="flex items-center justify-center gap-2 py-3 px-6 bg-white/10 text-white border border-white/20 hover:bg-white/20 rounded-xl font-medium transition transform disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105"
               >
                 <Phone className="h-5 w-5" />
